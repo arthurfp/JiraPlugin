@@ -1,7 +1,8 @@
 package com.comsysto.kitchen.duty.impl;
 
 import com.atlassian.activeobjects.external.ActiveObjects;
-import com.atlassian.jira.bc.user.search.UserSearchService;
+import com.atlassian.jira.bc.issue.search.SearchService;
+
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.sal.api.ApplicationProperties;
@@ -26,7 +27,7 @@ public class MyPluginComponentImpl implements MyPluginComponent
     private ActiveObjects activeObjects;
 
     @ComponentImport
-    private UserSearchService userSearchService;
+    private SearchService searchService;
 
     @ComponentImport
     private PageBuilderService pageBuilderService;

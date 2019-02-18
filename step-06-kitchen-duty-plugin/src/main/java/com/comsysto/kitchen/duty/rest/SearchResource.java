@@ -8,8 +8,6 @@ import com.atlassian.jira.issue.search.SearchException;
 import com.atlassian.jira.issue.search.SearchResults;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.bean.PagerFilter;
-import com.atlassian.plugin.spring.scanner.annotation.component.Scanned;
-import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
 
 import javax.inject.Inject;
@@ -33,8 +31,8 @@ public class SearchResource {
     private final ApplicationUser user = ComponentAccessor.getJiraAuthenticationContext().getLoggedInUser();
     private final ChangeHistoryManager changeManager = ComponentAccessor.getChangeHistoryManager();
 
-    @Autowired
-    public SearchResource(@ComponentImport SearchService searchService) {
+    @Inject
+    public SearchResource(SearchService searchService) {
         this.searchService = searchService;
     }
 
@@ -73,12 +71,13 @@ public class SearchResource {
             try {
                 results = searchService.search(user, parseResult.getQuery(), PagerFilter.getUnlimitedFilter());
             } catch (SearchException e) {
+                System.out.println(e.getMessage());
                 return null;
             }
             List<Issue> issues = results.getIssues();
             if (!issues.isEmpty()) {
                 for (Issue issue : issues) {
-                    result.add(new SearchResourceModel(issue, changeManager.getChangeItemsForField(issue, "status")));
+                    result.add(new SearchResourceModel(issue, changeManager.getChangeItemsForField(issue, "priority")));
                 }
             }
         }

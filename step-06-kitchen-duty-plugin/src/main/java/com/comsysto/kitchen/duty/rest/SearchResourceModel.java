@@ -71,6 +71,70 @@ public class SearchResourceModel {
             this.transitionsTime.put(entry.getKey(), new TransitionsType(transitions.get(entry.getKey()), resolvedDate.get(entry.getKey())));
         }
     }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(String reporter) {
+        this.reporter = reporter;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getIssuetype() {
+        return issuetype;
+    }
+
+    public void setIssuetype(String issuetype) {
+        this.issuetype = issuetype;
+    }
+
+    public Date getResolutionDate() {
+        return resolutionDate;
+    }
+
+    public void setResolutionDate(Date resolutionDate) {
+        this.resolutionDate = resolutionDate;
+    }
+
+    public Map<String, TransitionsType> getTransitionsTime() {
+        return transitionsTime;
+    }
+
+    public void setTransitionsTime(Map<String, TransitionsType> transitionsTime) {
+        this.transitionsTime = transitionsTime;
+    }
 }
 
 class TransitionsType {
