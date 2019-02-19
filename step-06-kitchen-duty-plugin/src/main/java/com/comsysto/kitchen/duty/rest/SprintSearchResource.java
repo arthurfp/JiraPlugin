@@ -1,14 +1,19 @@
 package com.comsysto.kitchen.duty.rest;
 
+import com.atlassian.greenhopper.service.ServiceOutcome;
+import com.atlassian.greenhopper.service.sprint.Sprint;
 import com.atlassian.jira.bc.issue.search.SearchService;
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.search.SearchException;
 import com.atlassian.jira.issue.search.SearchResults;
+import com.atlassian.jira.jql.parser.JqlParseException;
+import com.atlassian.jira.jql.parser.JqlQueryParser;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.bean.PagerFilter;
 import com.atlassian.greenhopper.service.sprint.SprintQueryService;
 import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
+import com.atlassian.query.Query;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,12 +32,14 @@ import java.util.List;
 @Path("/sprints")
 public class SprintSearchResource {
 
-    private SprintQueryService sprintService;
+    private SprintQueryService sprintQueryService;
+    private JqlQueryParser jqlQueryParser;
     private final ApplicationUser user = ComponentAccessor.getJiraAuthenticationContext().getLoggedInUser();
 
     @Inject
-    public SprintSearchResource(SprintQueryService sprintService) {
-        this.sprintService = sprintService;
+    public SprintSearchResource(SprintQueryService sprintQueryService, JqlQueryParser jqlQueryParser) {
+        this.sprintQueryService = sprintQueryService;
+        this.jqlQueryParser = jqlQueryParser;
     }
 
     public SprintSearchResource() {
@@ -59,24 +66,27 @@ public class SprintSearchResource {
         return Response.ok(sprints).build();
     }
 
-    public List<SearchResourceModel> findSprints(String term) {
+    public List<SprintSearchResourceModel> findSprints(String term) {
 
         String JQLQuery = "project="+term;
-        List<SearchResourceModel> result = new ArrayList<>();
+        Query query = null;
 
-        SearchService.ParseResult parseResult = sprintService.getSprints(user ,JQLQuery);
-        if (parseResult.isValid()) {
-            SearchResults results;
-            try {
-                results = sprintService.search(user, parseResult.getQuery(), PagerFilter.getUnlimitedFilter());
-            } catch (SearchException e) {
-                System.out.println(e.getMessage());
-                return null;
-            }
-            List<Issue> issues = results.getIssues();
-            if (!issues.isEmpty()) {
-                for (Issue issue : issues) {
-                    result.add(new SearchResourceModel(issue, changeManager.getChangeItemsForField(issue, "status")));
+        try {
+            query = jqlQueryParser.parseQuery(JQLQuery);
+        } catch (JqlParseException e) {
+            e.printStackTrace();
+        }
+
+        List<SprintSearchResourceModel> result = new ArrayList<>();
+
+        if(query != null) {
+            ServiceOutcome<List<Sprint>> sprintResult = sprintQueryService.getSprints(user, query);
+            if (sprintResult.isValid()) {
+                List<Sprint> sprints = sprintResult.getValue();
+                if (!sprints.isEmpty()) {
+                    for (Sprint sprint : sprints) {
+                        result.add(new SprintSearchResourceModel(sprint));
+                    }
                 }
             }
         }

@@ -1,8 +1,13 @@
 package com.comsysto.kitchen.duty.impl;
 
 import com.atlassian.activeobjects.external.ActiveObjects;
+import com.atlassian.greenhopper.service.sprint.SprintIssueService;
+import com.atlassian.greenhopper.service.sprint.SprintQueryService;
+import com.atlassian.greenhopper.service.sprint.SprintService;
 import com.atlassian.jira.bc.issue.search.SearchService;
 
+import com.atlassian.jira.bc.project.ProjectService;
+import com.atlassian.jira.jql.parser.JqlQueryParser;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.sal.api.ApplicationProperties;
@@ -28,6 +33,21 @@ public class MyPluginComponentImpl implements MyPluginComponent
 
     @ComponentImport
     private SearchService searchService;
+
+    @ComponentImport
+    private ProjectService projectSearchService;
+
+    @ComponentImport
+    private SprintIssueService sprintIssueServicee;
+
+    @ComponentImport
+    private SprintQueryService sprintQueryService;
+
+    @ComponentImport
+    private SprintService sprintService;
+
+    @ComponentImport
+    private JqlQueryParser jqlQueryParserSearchService;
 
     @ComponentImport
     private PageBuilderService pageBuilderService;
