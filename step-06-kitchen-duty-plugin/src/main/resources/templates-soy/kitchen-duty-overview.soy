@@ -1,9 +1,30 @@
-{namespace JIRA.Templates.KDPO}
+{namespace JIRA.Templates.JDCT}
 /**
- * Kitchen Duty Overview Page - Base Template
+ * JiraDashboards Cycle Time KPI Template
  */
-{template .overviewPage}
-    <div id="kdp-overview">
-        <div id="kdp-calendar"></div>
+{template .sidebar}
+    <form class="aui" id="jd-select-form">
+        <div id="jd-select-projects-container"></div>
+        <div id="jd-select-teams-container"></div>
+    </form>
+{/template}
+
+{template .plotly}
+    <div id="jd-cycletime">
+        <div id="cycletime-plotly"></div>
+    </div>
+{/template}
+
+{template .selectProjects}
+    <div class="jd-step-content">
+        <div >Select the projects to filter:</div>
+        <br/>
+        <div
+          id="jd-project-select"
+          name="jd-project-select"
+          class="jd-aui-select"
+          multiple=""
+          placeholder="Project Key/Name..."
+        ></div>
     </div>
 {/template}

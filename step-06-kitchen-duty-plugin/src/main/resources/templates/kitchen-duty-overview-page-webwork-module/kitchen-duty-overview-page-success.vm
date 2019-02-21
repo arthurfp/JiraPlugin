@@ -2,6 +2,7 @@
 <head>
     <title>$i18n.getText("kitchen-duty-plugin.user.overview.page.title")</title>
     <meta name="decorator" content="atl.general"/>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 <div id="page">
@@ -10,7 +11,7 @@
         <header class="aui-page-header">
             <div class="aui-page-header-inner">
                 <div class="aui-page-header-main">
-                    <h1>Kitchen Duty</h1>
+                    <h1>Cycle Time KPI</h1>
                 </div>
             </div>
         </header>
@@ -21,14 +22,14 @@
                     <nav class="aui-navgroup aui-navgroup-vertical">
                         <div class="aui-navgroup-inner">
                             <ul class="aui-nav">
-                                <li class="aui-nav-selected"><a href="${req.contextPath}/secure/KitchenDutyOverviewPageWebworkAction.jspa">Overview Page</a></li>
+                                <li class="aui-nav-selected"><a href="${req.contextPath}/secure/KitchenDutyOverviewPageWebworkAction.jspa">Cycle Time KPI</a></li>
                                 <li><a href="${req.contextPath}/secure/KitchenDutyPlanningWebworkAction.jspa">Planning Page</a></li>
                             </ul>
                         </div>
                     </nav>
                 </div>
                 <section class="aui-page-panel-content">
-                    <div id="kdp-overview-page-container"></div>
+                    <div id="jd-cycletime-container" style="width:600px;height:250px;"></div>
                 </section>
             </div>
         </div>

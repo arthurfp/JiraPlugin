@@ -80,7 +80,7 @@ var initWeekPicker = function() {
 AJS.toInit(function(){
     AJS.log('KDP: Planning Page Controller initializing ...');
     var baseUrl = AJS.params.baseURL;
-    var restUrl = baseUrl + '/rest/kitchenduty/1.0';
+    var restUrl = baseUrl + '/rest/jd-api/1.0';
     window.KDPrestUrl = restUrl;
 
     // set locale for moment-js so that week starts on sunday

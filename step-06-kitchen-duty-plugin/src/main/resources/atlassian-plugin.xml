@@ -73,10 +73,8 @@
     </transformation>
     <resource type="download" name="momentjs.js"
               location="/js/3rdparty/moment-2.22.2.min.js"/>
-    <resource type="download" name="fullcalendar.js"
-              location="/js/3rdparty/fullcalendar-3.9.0.min.js"/>
-    <resource type="download" name="fullcalendar.css"
-              location="/css/3rdparty/fullcalendar-3.9.0.min.css"/>
+    <resource type="download" name="plotly.js"
+              location="/js/3rdparty/plotly-latest.min.js"/>
     <resource type="download" name="kitchen-duty-overview-soy.js"
               location="templates-soy/kitchen-duty-overview.soy"/>
     <resource type="download" name="kitchen-duty-plugin--overview-page-controller.js"
@@ -98,7 +96,7 @@
   <!-- ====================== -->
   <!-- REST -->
   <!-- ====================== -->
-  <rest name="Kitchen Duty Resources" i18n-name-key="kitchen-duty-plugin.rest.resources.name" key="kitchen-duty-resources" path="/kitchenduty" version="1.0">
+  <rest name="Kitchen Duty Resources" i18n-name-key="kitchen-duty-plugin.rest.resources.name" key="kitchen-duty-resources" path="/jd-api" version="1.0">
     <description key="kitchen-duty-plugin.rest.resources.description">All Kitchen Duty REST Resources</description>
     <package>com.comsysto.kitchen.duty.rest</package>
   </rest>

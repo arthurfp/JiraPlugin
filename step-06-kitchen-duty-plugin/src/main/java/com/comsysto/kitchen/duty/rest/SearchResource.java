@@ -1,10 +1,5 @@
 package com.comsysto.kitchen.duty.rest;
 
-import com.atlassian.greenhopper.service.ServiceOutcome;
-import com.atlassian.greenhopper.service.sprint.Sprint;
-import com.atlassian.greenhopper.service.sprint.SprintIssueService;
-import com.atlassian.greenhopper.service.sprint.SprintManager;
-import com.atlassian.greenhopper.service.sprint.SprintService;
 import com.atlassian.jira.bc.issue.search.SearchService;
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.issue.Issue;
@@ -34,16 +29,12 @@ import java.util.List;
 public class SearchResource {
 
     private SearchService searchService;
-    private SprintIssueService sprintIssueService;
-    private SprintService sprintService;
     private final ApplicationUser user = ComponentAccessor.getJiraAuthenticationContext().getLoggedInUser();
     private final ChangeHistoryManager changeManager = ComponentAccessor.getChangeHistoryManager();
 
     @Inject
-    public SearchResource(SearchService searchService, SprintIssueService sprintIssueService, SprintService sprintService) {
+    public SearchResource(SearchService searchService) {
         this.searchService = searchService;
-        this.sprintIssueService = sprintIssueService;
-        this.sprintService = sprintService;
     }
 
     public SearchResource() {
@@ -70,14 +61,14 @@ public class SearchResource {
         return Response.ok(issues).build();
     }
 
-    @GET
+    /*@GET
     @Path("/searchBySprint")
     @Produces({MediaType.APPLICATION_JSON})
     public Response searchIssuesBySprint(@QueryParam("query") final String sprintId,
                                  @Context HttpServletRequest request) {
         List<SearchResourceModel> issues = findIssuesBySprint(sprintId);
         return Response.ok(issues).build();
-    }
+    }*/
 
     public List<SearchResourceModel> findIssues(String term) {
 
@@ -103,7 +94,7 @@ public class SearchResource {
         return result;
     }
 
-    public List<SearchResourceModel> findIssuesBySprint(String sprintId) {
+    /*public List<SearchResourceModel> findIssuesBySprint(String sprintId) {
 
         List<SearchResourceModel> result = new ArrayList<>();
 
@@ -120,5 +111,5 @@ public class SearchResource {
             }
         }
         return result;
-    }
+    }*/
 }
