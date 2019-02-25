@@ -156,6 +156,9 @@
           <version>${amps.version}</version>
           <extensions>true</extensions>
           <configuration>
+            <jvmArgs>-Dplugin.resource.directories=/src/main/resources</jvmArgs>
+            <!--TODO mudar js para versão antiga e ativar minificação/compress -->
+            <compressResources>false</compressResources>
             <productVersion>${jira.version}</productVersion>
             <productDataVersion>${jira.version}</productDataVersion>
             <!-- Uncomment to install TestKit backdoor in JIRA. -->

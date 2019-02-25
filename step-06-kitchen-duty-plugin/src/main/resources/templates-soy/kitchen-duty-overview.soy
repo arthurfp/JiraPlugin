@@ -1,30 +1,39 @@
 {namespace JIRA.Templates.JDCT}
 /**
- * JiraDashboards Cycle Time KPI Template
+ * JiraDashboards Sidebar Template
  */
 {template .sidebar}
-    <form class="aui" id="jd-select-form">
         <div id="jd-select-projects-container"></div>
         <div id="jd-select-teams-container"></div>
-    </form>
 {/template}
 
-{template .plotly}
+/**
+ *JiraDashboards Plotly CycleChart Template
+ */
+{template .plotlyCycleChart}
     <div id="jd-cycletime">
         <div id="cycletime-plotly"></div>
     </div>
 {/template}
 
+/**
+ *JiraDashboards SelectProjects Template
+ */
 {template .selectProjects}
-    <div class="jd-step-content">
-        <div >Select the projects to filter:</div>
-        <br/>
-        <div
-          id="jd-project-select"
-          name="jd-project-select"
-          class="jd-aui-select"
-          multiple=""
-          placeholder="Project Key/Name..."
-        ></div>
+    <div id="jd-select-projects-container">
+        <form class="aui" id="jd-project-select-form">
+            <div class="jd-step-content">
+                <div >Select the projects to filter:</div>
+                <br/>
+                <div
+                  id="jd-project-select"
+                  name="jd-project-select"
+                  class="jd-aui-select"
+                  multiple=""
+                  placeholder="Project Key/Name..."
+                ></div>
+            </div>
+        </form>
     </div>
+    <hr></hr>
 {/template}

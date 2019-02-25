@@ -70,9 +70,8 @@ public class SearchResource {
         return Response.ok(issues).build();
     }*/
 
-    public List<SearchResourceModel> findIssues(String term) {
+    public List<SearchResourceModel> findIssues(String JQLQuery) {
 
-        String JQLQuery = "project="+term;
         List<SearchResourceModel> result = new ArrayList<SearchResourceModel>();
 
         SearchService.ParseResult parseResult = searchService.parseQuery(user, JQLQuery);

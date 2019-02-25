@@ -4,6 +4,7 @@ import com.atlassian.jira.bc.project.ProjectService;
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
 
 import javax.inject.Inject;
@@ -23,10 +24,12 @@ import java.util.List;
  * A resource of message.
  */
 @Named
-@Path("/search-jira")
+@Path("/projects")
 public class ProjectSearchResource {
 
     private ProjectService projectService;
+
+    private final ApplicationUser user = ComponentAccessor.getJiraAuthenticationContext().getLoggedInUser();
 
     @Inject
     public ProjectSearchResource(ProjectService projectService){
@@ -46,7 +49,7 @@ public class ProjectSearchResource {
     }
 
     @GET
-    @Path("/project")
+    @Path("/search")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getProject(@QueryParam("query") final String searchQuery,
                                @Context HttpServletRequest request ) {
@@ -55,7 +58,7 @@ public class ProjectSearchResource {
     }
 
     @GET
-    @Path("/projects")
+    @Path("/getAll")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getProjects(@Context HttpServletRequest request ) {
         List<ProjectSearchResourceModel> projects = findProjects(request);
@@ -72,12 +75,11 @@ public class ProjectSearchResource {
     }
 
     private List<ProjectSearchResourceModel> findProjects(HttpServletRequest request){
-        JiraAuthenticationContext jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
-        com.atlassian.jira.user.ApplicationUser user = jiraAuthenticationContext.getLoggedInUser();
 
-        List<ProjectSearchResourceModel> projectSearchResourceModels = new ArrayList<ProjectSearchResourceModel>();
+        List<ProjectSearchResourceModel> projectSearchResourceModels = new ArrayList<>();
         List<Project> projects = null;
-        if((projects = projectService.getAllProjects(user).get()).isEmpty()) {
+        projects = projectService.getAllProjects(user).get();
+        if(!projects.isEmpty()){
             for(Project proj : projects) {
                 projectSearchResourceModels.add(new ProjectSearchResourceModel(proj));
             }

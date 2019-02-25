@@ -20,9 +20,6 @@ public class MyPluginComponentImpl implements MyPluginComponent
 {
 
     @ComponentImport
-    protected com.atlassian.sal.api.user.UserManager userManager;
-
-    @ComponentImport
     private final ApplicationProperties applicationProperties;
 
     @ComponentImport

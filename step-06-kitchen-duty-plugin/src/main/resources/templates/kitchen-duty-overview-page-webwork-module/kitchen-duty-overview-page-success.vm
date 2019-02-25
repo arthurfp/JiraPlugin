@@ -2,7 +2,6 @@
 <head>
     <title>$i18n.getText("kitchen-duty-plugin.user.overview.page.title")</title>
     <meta name="decorator" content="atl.general"/>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 <div id="page">
@@ -21,9 +20,9 @@
                 <div class="aui-page-panel-nav">
                     <nav class="aui-navgroup aui-navgroup-vertical">
                         <div class="aui-navgroup-inner">
+                            <div id="search-plot-features"></div>
                             <ul class="aui-nav">
                                 <li class="aui-nav-selected"><a href="${req.contextPath}/secure/KitchenDutyOverviewPageWebworkAction.jspa">Cycle Time KPI</a></li>
-                                <li><a href="${req.contextPath}/secure/KitchenDutyPlanningWebworkAction.jspa">Planning Page</a></li>
                             </ul>
                         </div>
                     </nav>
