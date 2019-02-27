@@ -7,8 +7,14 @@ AJS.toInit(function() {
     // Init Base SOY template
     const plotlyTemplate = JIRA.Templates.JDCT.plotlyCycleChart();
     const selectProjectsTemplate = JIRA.Templates.JDCT.selectProjects();
+    const selectSprintsTemplate = JIRA.Templates.JDCT.selectSprints();
+    const selectPlansTemplate = JIRA.Templates.JDCT.selectPlans();
+    const selectTeamsTemplate = JIRA.Templates.JDCT.selectTeams();
     AJS.$('#jd-cycletime-container').html(plotlyTemplate);
     AJS.$('#search-plot-features').html(selectProjectsTemplate);
+    AJS.$('#search-plot-features').append(selectSprintsTemplate);
+    AJS.$('#search-plot-features').append(selectPlansTemplate);
+    AJS.$('#search-plot-features').append(selectTeamsTemplate);
 
     //Global Variables
     let total = 0;
@@ -55,7 +61,28 @@ AJS.toInit(function() {
         tags: 'true',
     };
 
+    const auiSprintSelectOptions = {
+        data: dataProj,
+        minimumInputLength: 1,
+        tags: 'true',
+    };
+
+    const auiPlanSelectOptions = {
+        data: dataProj,
+        minimumInputLength: 1,
+        tags: 'true',
+    };
+
+    const auiTeamSelectOptions = {
+        data: dataProj,
+        minimumInputLength: 1,
+        tags: 'true',
+    };
+
     AJS.$('#jd-project-select').auiSelect2(auiProjectSelectOptions);
+    AJS.$('#jd-team-select').auiSelect2(auiTeamSelectOptions);
+    AJS.$('#jd-sprint-select').auiSelect2(auiSprintSelectOptions);
+    AJS.$('#jd-plan-select').auiSelect2(auiPlanSelectOptions);
 
     AJS.$('#jd-project-select').get(0).onchange = function(e) { searchProject(e); };
 
@@ -85,30 +112,39 @@ AJS.toInit(function() {
     //AJS.$(AJS.$('#jd-project-select').select2('data')).each(function () {
     function drawPlotly(jql) {
         AJS.$.ajax({
-            url: window.JDrestUrl + '/issues/search?query=' + jql,
+            //TODO tirar esse AND
+            url: window.JDrestUrl + '/issues/search?query=' + jql + 'AND (status changed from "In Progress")',
             dataType: 'json',
-            success: function (rawData) {
+            success: rawData => {
                 const dataXY = [];
-                AJS.$(rawData).each(function(rd) {
+                rawData.forEach(rd => {
                     const issue = {
                         key: rd.key,
                         resolutionDate: rd.resolutionDate,
                         transitionsTime: rd.transitionsTime
                     };
 
-                    if ((issue.transitionsTime !== undefined && issue.transitionsTime !== null && issue.transitionsTime.length > 0) &&
+                    if ((issue.transitionsTime !== undefined && issue.transitionsTime !== null && Object.keys(issue.transitionsTime).length > 0) &&
                         (issue.resolutionDate !== undefined && issue.resolutionDate !== null)) {
                         const xy = {};
                         xy.y = 0;
                         xy.text = 'Issue: ' + issue.key + '<br><br>';
 
-                        issue.transitionsTime.forEach(function (t) {
-                            xy.y += t.time / 86400000;
-                            xy.text += t.name + ': ' + convertMiliToTime(t.time) + '<br><br>';
-                            xy.x = new Date(t.resolution);
+                        //TODO arrumar o cycle time direito
+                        let cycleTime = '';
+
+                        Object.entries(issue.transitionsTime).forEach(t => {
+                            if (t[0] == 'In Progress'){
+                                xy.y += t[1].duration / 86400000;
+                                xy.x = new Date(t[1].resolvedDate);
+                                cycleTime = convertMiliToTime(t[1].duration);
+                            } else {
+                                xy.text += t[0] + ': ' + convertMiliToTime(t[1].duration) + '<br><br>';
+                            }
                         });
 
-                        xy.text += 'Cycle Time: ' + convertMiliToTime(xy.y * 86400000) + '<br><br>';
+                        xy.text += 'Cycle Time (In Progress): ' + cycleTime + '<br><br>';
+                        xy.text += 'Total: ' + convertMiliToTime(xy.y * 86400000) + '<br><br>';
                         xy.text += 'Resolution: ' + xy.x.toLocaleString();
                         dataXY.push(xy);
                     }
@@ -230,13 +266,12 @@ AJS.toInit(function() {
                                 zeroline: false
                             },
                             margin: {
-                                t: 20, //top margin
-                                l: 20, //left margin
-                                r: 20, //right margin
-                                b: 20 //bottom margin
+                                t: 60, //top margin
+                                l: 60, //left margin
+                                r: 60, //right margin
+                                b: 60 //bottom margin
                             }
-                        },
-                        style: {width: '100%', height: '100%'}
+                        }
                     };
 
                     plotReady = true;
@@ -245,11 +280,13 @@ AJS.toInit(function() {
                 } else {
                     //Mensagem de grafico vazio
                 }
+
+                AJS.log(graph.data);
+                Plotly.plot( 'cycletime-plotly', graph.data, graph.layout, config );
+                graph = {};
             }
         });
     }
-
-    Plotly.plot( 'cycletime-plotly', graph.data, graph.layout, config, {responsive: true} );
 
     AJS.$('cycletime-plotly').on('plotly_click', function(data) {
         if (data.hasOwnProperty('points') && data.points[0].data.name === 'Issue') {

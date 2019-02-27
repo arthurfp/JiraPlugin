@@ -12,7 +12,7 @@
  */
 {template .plotlyCycleChart}
     <div id="jd-cycletime">
-        <div id="cycletime-plotly"></div>
+        <div id="cycletime-plotly" style="width:1200px;"></div>
     </div>
 {/template}
 
@@ -23,7 +23,7 @@
     <div id="jd-select-projects-container">
         <form class="aui" id="jd-project-select-form">
             <div class="jd-step-content">
-                <div >Select the projects to filter:</div>
+                <div >Select the Projects to filter:</div>
                 <br/>
                 <div
                   id="jd-project-select"
@@ -34,6 +34,71 @@
                 ></div>
             </div>
         </form>
+        <br/>
     </div>
-    <hr></hr>
+{/template}
+
+/**
+ *JiraDashboards SelectSprints Template
+ */
+{template .selectSprints}
+    <div id="jd-select-sprints-container">
+        <form class="aui" id="jd-sprints-select-form">
+            <div class="jd-step-content">
+                <div >Select the Sprints to filter:</div>
+                <br/>
+                <div
+                  id="jd-sprint-select"
+                  name="jd-sprint-select"
+                  class="jd-aui-select"
+                  multiple=""
+                  placeholder="Sprint Key/Name..."
+                ></div>
+            </div>
+        </form>
+        <br/>
+    </div>
+{/template}
+
+/**
+ *JiraDashboards SelectPlans Template
+ */
+{template .selectPlans}
+    <div id="jd-select-plans-container">
+        <form class="aui" id="jd-plans-select-form">
+            <div class="jd-step-content">
+                <div >Select the Plans to filter:</div>
+                <br/>
+                <div
+                  id="jd-plan-select"
+                  name="jd-plan-select"
+                  class="jd-aui-select"
+                  multiple=""
+                  placeholder="Plan Key/Name..."
+                ></div>
+            </div>
+        </form>
+        <br/>
+    </div>
+{/template}
+
+/**
+ *JiraDashboards SelectTeams Template
+ */
+{template .selectTeams}
+    <div id="jd-select-teams-container">
+        <form class="aui" id="jd-teams-select-form">
+            <div class="jd-step-content">
+                <div >Select the Teams to filter:</div>
+                <br/>
+                <div
+                  id="jd-team-select"
+                  name="jd-team-select"
+                  class="jd-aui-select"
+                  multiple=""
+                  placeholder="Team ID/Name..."
+                ></div>
+            </div>
+        </form>
+    </div>
 {/template}

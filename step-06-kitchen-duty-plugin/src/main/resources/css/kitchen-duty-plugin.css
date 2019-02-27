@@ -1,11 +1,13 @@
-#kdp-planning-page-container {
-    margin-top:20px;
+.aui-page-panel-inner{
+    height: 500px;
 }
 
-.kdp-step-content {
-    padding:5px 20px 20px 20px;
+.aui-page-panel-nav{
+    width: 15%;
 }
 
-#kdp-calendar {
-    max-width:600px;
+#jd-cycletime {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
 }

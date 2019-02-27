@@ -4,6 +4,7 @@ import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.changehistory.ChangeHistoryItem;
 import com.atlassian.jira.issue.history.ChangeItemBean;
 import com.atlassian.jira.user.ApplicationUser;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.xml.bind.annotation.*;
 import java.util.*;
@@ -139,11 +140,22 @@ public class SearchResourceModel {
 
 class TransitionsType {
 
+    @JsonProperty("duration")
     private Long duration;
+
+    @JsonProperty("resolvedDate")
     private Date resolvedDate;
 
     public TransitionsType(Long duration, Date resolvedDate) {
         this.duration = duration;
+        this.resolvedDate = resolvedDate;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
+    public void setResolvedDate(Date resolvedDate) {
         this.resolvedDate = resolvedDate;
     }
 
